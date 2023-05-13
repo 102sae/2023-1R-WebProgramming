@@ -1,0 +1,68 @@
+.root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.root > p {
+  width: 100vw;
+  height: 5vh;
+  position: fixed;
+  top: -2.5vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: white;
+  font-size: large;
+  z-index: 1;
+}
+
+.img_wrap {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+img {
+  width: 600px;
+  height: 99vh;
+}
+
+.img_left {
+  position: relative;
+}
+
+.img_left > .img_name {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  color: white;
+  text-shadow: 2px 2px 4px black;
+}
+
+.img_right {
+  position: relative;
+}
+
+.img_right > .img_name {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  color: white;
+  text-shadow: 2px 2px 4px black;
+}
+
+.winner_wrap {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.winner_wrap > .winner_img {
+  width: 500px;
+  height: 600px;
+}

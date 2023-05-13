@@ -1,24 +1,33 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [row, setRow] = useState([]);
-  function onClickLoad() {
-    if (row.length === 0) {
-      fetch(
-        "http://openapi.seoul.go.kr:8088/506e62784d7361653937694247515a/json/RealtimeCityAir/1/25"
-      ).then(function (res2) {
-        res2.json().then(function (res3) {
-          setRow(res3.RealtimeCityAir.row);
-        });
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    document.title = `You clicked ${count} times`;
+    //rerendering 할 때도 동작
+    return () => {
+      document.title = "Vite + React";
+    };
+  }, [count]);
+
+  useEffect(() => {
+    fetch(
+      "http://openapi.seoul.go.kr:8088/506e62784d7361653937694247515a/json/RealtimeCityAir/1/25"
+    ).then(function (res2) {
+      res2.json().then(function (res3) {
+        setRow(res3.RealtimeCityAir.row);
       });
-    }
-  }
-  console.log(row);
+    });
+  }, []);
 
   return (
     <>
-      <button onClick={onClickLoad}>API 호출</button>
+      <button onClick={() => setCount((count) => count + 1)}>
+        count is {count}
+      </button>
+
       <table>
         <thead>
           <tr>
@@ -29,13 +38,13 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {row.map(function (obj) {
+          {row.map((gu, index) => {
             return (
-              <tr>
-                <td>{obj.MSRSTE_NM}</td>
-                <td>{obj.PM10}</td>
-                <td>{obj.O3}</td>
-                <td>{obj.IDEX_NM}</td>
+              <tr key={index}>
+                <td>{gu.MSRSTE_NM}</td>
+                <td>{gu.PM10}</td>
+                <td>{gu.O3}</td>
+                <td>{gu.IDEX_NM}</td>
               </tr>
             );
           })}
