@@ -16,7 +16,7 @@
   text-align: center;
   color: white;
   font-size: large;
-  z-index: 1;
+  z-index: 100;
 }
 
 .img_wrap {
@@ -28,6 +28,7 @@
 img {
   width: 600px;
   height: 99vh;
+  z-index: 0;
 }
 
 .img_left {
@@ -65,4 +66,38 @@ img {
 .winner_wrap > .winner_img {
   width: 500px;
   height: 600px;
+}
+
+@keyframes left-ani {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(300px, 0);
+  }
+}
+
+.winner_left {
+  position: relative;
+  z-index: 50;
+  transform: scale(1.5);
+  transition: 0.5s;
+  animation: left-ani 1s linear forwards;
+}
+
+@keyframes right-ani {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-300px, 0);
+  }
+}
+
+.winner_right {
+  position: relative;
+  z-index: 50;
+  transform: scale(1.5);
+  transition: 0.5s;
+  animation: right-ani 1s linear forwards;
 }

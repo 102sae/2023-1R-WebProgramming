@@ -40,6 +40,9 @@ function Worldcup() {
   const [game, setGame] = useState([]); // 이상형 배열
   const [round, setRound] = useState(0); //이상형 라운드 16강, 8강
   const [nextGame, setNextGame] = useState([]); //다음 라운드에 올라가는 이상형 배열
+  const [leftWin, setLeftWin] = useState(false);
+  const [rightWin, setRightWin] = useState(false);
+
   useEffect(() => {
     setGame(
       candidate
@@ -69,6 +72,7 @@ function Worldcup() {
       </div>
     );
   }
+
   if (game.length === 0 || round + 1 > game.length / 2) {
     return <p>로딩중</p>;
   }
@@ -81,23 +85,37 @@ function Worldcup() {
       <div className="img_wrap">
         <div className="img_left">
           <img
+            className={leftWin ? "winner_left" : ""}
             src={game[round * 2].src}
             onClick={() => {
               setNextGame((prev) => prev.concat(game[round * 2]));
-              setRound((prev) => prev + 1);
+              setLeftWin(true);
+              setTimeout(() => {
+                setLeftWin(false);
+                setRound((prev) => prev + 1);
+              }, 3000);
             }}
           />
-          <span className="img_name">{game[round * 2].name}</span>
+          <span className={leftWin ? "winner_left img_name" : "img_name"}>
+            {game[round * 2].name}
+          </span>
         </div>
         <div className="img_right">
           <img
+            className={rightWin ? "winner_right" : ""}
             src={game[round * 2 + 1].src}
             onClick={() => {
               setNextGame((prev) => prev.concat(game[round * 2 + 1]));
-              setRound((prev) => prev + 1);
+              setRightWin(true);
+              setTimeout(() => {
+                setRightWin(false);
+                setRound((prev) => prev + 1);
+              }, 3000);
             }}
           />
-          <span className="img_name">{game[round * 2 + 1].name}</span>
+          <span className={rightWin ? "winner_right img_name" : "img_name"}>
+            {game[round * 2 + 1].name}
+          </span>
         </div>
       </div>
     </div>
