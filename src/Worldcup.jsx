@@ -14,6 +14,7 @@ import 백현 from "./assets/백현.jpg";
 import 김범 from "./assets/김범.jpg";
 import 김수현 from "./assets/김수현.jpg";
 import 남주혁 from "./assets/남주혁.jpg";
+
 import "./Worldcup.css";
 import { useEffect, useState } from "react";
 
@@ -43,7 +44,28 @@ function Worldcup() {
   const [leftWin, setLeftWin] = useState(false);
   const [rightWin, setRightWin] = useState(false);
 
+  const [stat, setStat] = useState({
+    고수: 0,
+    공명: 0,
+    김범: 0,
+    김수현: 0,
+    남주혁: 0,
+    박형식: 0,
+    백현: 0,
+    서강준: 0,
+    안효섭: 0,
+    이도현: 0,
+    이신영: 0,
+    이제훈: 0,
+    주연: 0,
+    최병찬: 0,
+    현재: 0,
+    황민현: 0,
+  });
+
   useEffect(() => {
+    const s = localStorage.getItem("2020112095");
+    s && setStat(JSON.parse(s));
     setGame(
       candidate
         .map((c) => {
@@ -63,19 +85,65 @@ function Worldcup() {
       setNextGame([]);
     }
   }, [round]);
+
   //결승자 출력
   if (game.length === 1) {
+    localStorage.setItem("2020112095", JSON.stringify(stat));
     return (
-      <div className="winner_wrap">
-        <h3>이상형 월드컵 우승 : {game[0].name}</h3>
-        <img className="winner_img" src={game[0].src} />
+      <div>
+        <h3 className="winner_header">
+          이상형 월드컵 우승 : {game[0].name} 승리 횟수 ({stat[game[0].name]})
+        </h3>
+        <div className="winner_wrap">
+          <img className="winner_img" src={game[0].src} />
+          <table>
+            <tbody>
+              {Object.keys(stat).map((name) => {
+                return (
+                  <tr key={name}>
+                    <td>{name}</td>
+                    <td>{stat[name]}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
-
   if (game.length === 0 || round + 1 > game.length / 2) {
     return <p>로딩중</p>;
   }
+
+  const left = round * 2,
+    right = round * 2 + 1;
+
+  const leftFunction = () => {
+    setStat({ ...stat, [game[left].name]: stat[game[left].name] + 1 }); // 딕셔너리 덮어씀
+    setNextGame((prev) => prev.concat(game[left]));
+    // setStat((prevStat) => {
+    //   prevStat[game[left].name] = prevStat[game[left].name] + 1;
+    //   return prevStat;
+    // });
+    setLeftWin(true);
+    setTimeout(() => {
+      setLeftWin(false);
+      setRound((prev) => prev + 1);
+    }, 50);
+  };
+
+  const rightFuntion = () => {
+    setNextGame((prev) => prev.concat(game[right]));
+    setStat({ ...stat, [game[right].name]: stat[game[right].name] + 1 }); // 딕셔너리 덮어씀
+
+    setRightWin(true);
+    setTimeout(() => {
+      setRightWin(false);
+      setRound((prev) => prev + 1);
+    }, 1000);
+  };
+
   return (
     <div className="root">
       <p>
@@ -85,36 +153,22 @@ function Worldcup() {
       <div className="img_wrap">
         <div className="img_left">
           <img
-            className={leftWin ? "winner_left" : ""}
-            src={game[round * 2].src}
-            onClick={() => {
-              setNextGame((prev) => prev.concat(game[round * 2]));
-              setLeftWin(true);
-              setTimeout(() => {
-                setLeftWin(false);
-                setRound((prev) => prev + 1);
-              }, 3000);
-            }}
+            className={rightWin ? "winner_left" : ""}
+            src={game[left].src}
+            onClick={leftFunction}
           />
-          <span className={leftWin ? "winner_left img_name" : "img_name"}>
-            {game[round * 2].name}
+          <span className={rightWin ? "winner_left img_name" : "img_name"}>
+            {game[left].name}
           </span>
         </div>
         <div className="img_right">
           <img
-            className={rightWin ? "winner_right" : ""}
-            src={game[round * 2 + 1].src}
-            onClick={() => {
-              setNextGame((prev) => prev.concat(game[round * 2 + 1]));
-              setRightWin(true);
-              setTimeout(() => {
-                setRightWin(false);
-                setRound((prev) => prev + 1);
-              }, 3000);
-            }}
+            className={leftWin ? "winner_right" : ""}
+            src={game[right].src}
+            onClick={rightFuntion}
           />
-          <span className={rightWin ? "winner_right img_name" : "img_name"}>
-            {game[round * 2 + 1].name}
+          <span className={leftWin ? "winner_right img_name" : "img_name"}>
+            {game[right].name}
           </span>
         </div>
       </div>

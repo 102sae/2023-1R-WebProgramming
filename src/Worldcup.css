@@ -55,11 +55,13 @@ img {
   text-shadow: 2px 2px 4px black;
 }
 
+.winner_header {
+  text-align: center;
+}
 .winner_wrap {
   width: 100vw;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -68,36 +70,26 @@ img {
   height: 600px;
 }
 
-@keyframes left-ani {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(300px, 0);
-  }
-}
-
 .winner_left {
-  position: relative;
-  z-index: 50;
-  transform: scale(1.5);
-  transition: 0.5s;
-  animation: left-ani 1s linear forwards;
-}
-
-@keyframes right-ani {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(-300px, 0);
-  }
+  display: none;
 }
 
 .winner_right {
-  position: relative;
-  z-index: 50;
-  transform: scale(1.5);
-  transition: 0.5s;
-  animation: right-ani 1s linear forwards;
+  display: none;
+}
+
+.progress_bar {
+  width: 100%;
+  height: 30px;
+  background-color: #dedede;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.progress-bar .progress {
+  height: 30px;
+  padding: 0;
+  text-align: center;
+  background-color: #4f98ff;
+  color: #111;
 }
